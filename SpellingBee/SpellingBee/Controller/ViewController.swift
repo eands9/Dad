@@ -15,7 +15,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var spellTxt: UITextField!
     
     var questionNumber: Int = 0
+    var randomPick: Int = 0
     
+    let congratulateArray = ["Great Job", "Excellent", "Way to go", "Alright", "Right on", "Correct", "Well done", "Awesome"]
+    let retryArray = ["Try again","Oooops"]
     let allWords = WordBank()
     
     override func viewDidLoad() {
@@ -29,11 +32,17 @@ class ViewController: UIViewController {
 
     @IBAction func checkBtn(_ sender: Any) {
         if wordLabel.text == spellTxt.text {
-            readMe(myText: "Great Job!")
-            //spell next word
-            questionNumber += 1
-            nextWord()
+            //congratulate
+            randomPositiveFeedback()
             
+            //Wait 2 seconds before showing the next question
+            let when = DispatchTime.now() + 2
+            DispatchQueue.main.asyncAfter(deadline: when){
+                //spell next word
+                self.questionNumber += 1
+                self.nextWord()
+            }
+    
             //clear texview
             spellTxt.text = ""
             
@@ -41,7 +50,7 @@ class ViewController: UIViewController {
             //increment score
         }
         else {
-            readMe(myText: "Try Again...")
+            randomTryAgain()
         }
     }
     
@@ -80,6 +89,17 @@ class ViewController: UIViewController {
     func startOver(){
         questionNumber = 0
         nextWord()
+    }
+    
+    func randomPositiveFeedback(){
+        randomPick = Int(arc4random_uniform(8))
+        readMe(myText: congratulateArray[randomPick])
+
+    }
+    
+    func randomTryAgain(){
+        randomPick = Int(arc4random_uniform(2))
+        readMe(myText: retryArray[randomPick])
     }
 }
 
