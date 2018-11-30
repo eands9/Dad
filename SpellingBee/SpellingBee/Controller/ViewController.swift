@@ -25,13 +25,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     
         let firstWord = allWords.list[0].spellWord
-        wordLabel.text = firstWord
         readMe(myText: "Spoull" + firstWord)
         
     }
 
     @IBAction func checkBtn(_ sender: Any) {
-        if wordLabel.text == spellTxt.text {
+        
+        let spellWord = allWords.list[questionNumber].spellWord
+        
+        if spellWord == spellTxt.text {
             //congratulate
             randomPositiveFeedback()
             
@@ -66,7 +68,7 @@ class ViewController: UIViewController {
     
     func nextWord(){
         if questionNumber <= 2 {
-            wordLabel.text = allWords.list[questionNumber].spellWord
+            //wordLabel.text = allWords.list[questionNumber].spellWord
             readMe(myText: "Spoull" + allWords.list[questionNumber].spellWord)
         }
         else {
