@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -22,28 +23,42 @@ class ViewController: UIViewController {
     
         let firstWord = allWords.list[0].spellWord
         wordLabel.text = firstWord
+        readMe(myText: "Spoull" + firstWord)
         
     }
 
     @IBAction func checkBtn(_ sender: Any) {
         if wordLabel.text == spellTxt.text {
-            print("Great Job!")
-            
-            
+            readMe(myText: "Great Job!")
             //spell next word
             questionNumber += 1
             nextWord()
             
+            //clear texview
+            spellTxt.text = ""
+            
+            
             //increment score
         }
         else {
-            print("Try Again...")
+            readMe(myText: "Try Again...")
         }
     }
+    
+    func readMe( myText: String) {
+        let utterance = AVSpeechUtterance(string: myText )
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
+        utterance.rate = 0.3
+        
+        let synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
+    }
+    
     
     func nextWord(){
         if questionNumber <= 2 {
             wordLabel.text = allWords.list[questionNumber].spellWord
+            readMe(myText: "Spoull" + allWords.list[questionNumber].spellWord)
         }
         else {
             
